@@ -177,3 +177,52 @@ Create an index.html file in that location to test that the virtual host is work
 Finally, go to your browser and open your website URL using your IP address
 
 ![Alt text](Images/ipaddress.png)
+
+STEP 5 - ENABLE PHP ON THE WEBSITE
+
+As a result of the DirectoryIndex settings on Apache, a file named *index.html* will always over an *index.php* file. 
+
+In case you want to change this behavior, you’ll need to edit the **/etc/apache2/mods-enabled/dir.conf** file and change the order in which the index.php file is listed within the DirectoryIndex directive - 
+
+```python
+'sudo vim /etc/apache2/mods-enabled/dir.conf'
+```
+
+It will come up as below - 
+
+```python
+'<IfModule mod_dir.c>
+        #Change this:
+        #DirectoryIndex index.html index.cgi index.pl index.php index.xhtml index.htm
+        #To this:
+        DirectoryIndex index.php index.html index.cgi index.pl index.xhtml index.htm
+</IfModule>'
+```
+
+Save and close the file and then reload apache so the changes can take effect -
+
+```python
+'sudo systemctl reload apache2'
+```
+![Alt text](Images/indexphp.png)
+
+**To confirm it works**
+- Create a PHP script to test that PHP is correctly installed and configured on your server.
+- Create a new file named *'index.php'* inside your custom web root folder.
+
+```python
+'vim /var/www/projectlamp/index.php'
+```
+
+It will open a blank file, add the following valid PHP code inside the file -
+
+```python
+'<?php
+phpinfo();'
+```
+
+Once you are finished, save and close the filoe and then refresh your page, you should see a similar page like below -
+
+![Alt text](Images/phppage.png)
+
+
